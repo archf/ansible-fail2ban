@@ -1,0 +1,18 @@
+---
+
+- name: Install latest fail2ban package
+  action: "{{ ansible_pkg_mgr }} pkg=fail2ban state=latest"
+
+- name: template jail2ban jail.local configuration file
+  template: src=jail.local.j2 dest=/etc/fail2ban/jail.local group=root owner=root mode=0600 backup=yes
+  notify: restart_fail2ban
+
+# - include: configuration.yml
+#   tags: configuration
+
+- name: start/stop fail2ban service
+  service:
+    name: fail2ban
+    state: '{{ fail2ban_service_state }}'
+    enabled: '{{ fail2ban_service_enabled }}'
+  tags: service
