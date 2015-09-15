@@ -11,17 +11,14 @@ before = paths-{{ ansible_distribution|lower }}.conf
 
 [DEFAULT]
 
-{% for key, value in fail2ban_jail_local_default.iteritems() %}
+{% for key, value in fail2ban_jail_default.iteritems() %}
 {{ key }} = {{ value }}
 {% endfor %}
 
-{# [{{ jails }}] #}
-{% for jails in fail2ban_jails %}
-{{ jails }}
-{% endfor %}
+{% if fail2ban_sshd is defined %}
+[sshd]
 
-{#
-{% for key, value in jails %}
+{% for key, value in fail2ban_sshd.iteritems() %}
 {{ key }} = {{ value }}
 {% endfor %}
-#}
+{% endif %}

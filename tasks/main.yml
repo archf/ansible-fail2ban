@@ -1,4 +1,5 @@
 ---
+# tasks file for fail2ban
 
 - name: Install latest fail2ban package
   action: "{{ ansible_pkg_mgr }} pkg=fail2ban state=latest"
