@@ -1,4 +1,4 @@
-Ansible Fail2Ban Role
+Ansible fail2ban role
 =====================
 
 Ansible role to install and configure fail2ban on a host.
