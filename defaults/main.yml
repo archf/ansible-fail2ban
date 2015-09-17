@@ -1,16 +1,6 @@
 ---
 # defaults file for fail2ban
 
-## could be useful for a tarball installation
-# fail2ban_path: /etc/fail2ban
-# fail2ban_filter_path: /etc/fail2ban/filter.d
-# fail2ban_action_path: /etc/fail2ban/action.d
-# fail2ban_jail_path: /etc/fail2ban/jail.d
-# fail2ban_pkg_version:
-
-# for tar installation
-fail2ban_pkg_state: installed
-
 # service
 fail2ban_service_state: started
 fail2ban_service_enabled: yes
@@ -24,5 +14,3 @@ fail2ban_jail_default:
 fail2ban_sshd:
   enabled: 'true'
   maxretry: '6'
-
-fail2ban_actions: []
