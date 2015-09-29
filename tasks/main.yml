@@ -8,9 +8,6 @@
   template: src=jail.local.j2 dest=/etc/fail2ban/jail.local group=root owner=root mode=0600 backup=yes
   notify: restart_fail2ban
 
-# - include: configuration.yml
-#   tags: configuration
-
 - name: start/stop fail2ban service
   service:
     name: fail2ban

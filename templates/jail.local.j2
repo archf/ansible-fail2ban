@@ -15,10 +15,14 @@ before = paths-{{ ansible_distribution|lower }}.conf
 {{ key }} = {{ value }}
 {% endfor %}
 
-{% if fail2ban_sshd is defined %}
-[sshd]
+{% if fail2ban_jails is defined %}
+{% for jails in fail2ban_jails %}
+[{{ jails.name }}]
+{% for key, value in jails|dictsort %}
+{% if key|lower != "name" %}
+{{key}} = {{value}}
+{% endif %}
+{% endfor %}
 
-{% for key, value in fail2ban_sshd.iteritems() %}
-{{ key }} = {{ value }}
 {% endfor %}
 {% endif %}

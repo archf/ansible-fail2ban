@@ -11,6 +11,7 @@ fail2ban_jail_default:
   maxretry: 4
 
 # fail2ban_sshd
-fail2ban_sshd:
-  enabled: 'true'
-  maxretry: '6'
+fail2ban_jails:
+  - name: sshd
+    enabled: 'true'
+    maxretry: '6'
