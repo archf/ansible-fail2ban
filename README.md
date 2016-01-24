@@ -13,19 +13,21 @@ Role Variables
 
 ```yaml
 # service
-fail2ban_service_state: started
-fail2ban_service_enabled: yes
+fail2ban_svc_state: started
+fail2ban_svc_enabled: yes
 
 # defaults
 fail2ban_jail_default:
   bantime: 600
-  maxretry: 4
+  maxretry: 3
 
- fail2ban_jails:
+fail2ban_jails:
   - name: fail2ban_sshd:
     enabled: 'true'
-    maxretry: '6'
+    maxretry: '5'
 ```
+`fail2ban_jails` is a list of jails to insert in template. Each list element will
+create a new section in config file.
 
 Dependencies
 ------------
