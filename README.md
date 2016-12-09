@@ -13,7 +13,21 @@ Minimum required ansible version is 2.0.
 
 ### Variables conditionally loaded
 
-None.
+Add jails with custom filters.
+
+Example below bans IP if too many requests give a 403.
+
+```yaml
+- role: fail2ban
+  fail2ban_jails:
+      - name: kinto_auth  # nginx 403 for kinto fails
+        enabled: 'true'
+        filter: kinto-auth
+        logpath: /var/log/nginx/kinto_nginx_access.log
+  fail2ban_filters:
+      - name: kinto-auth
+        failregex: '<HOST> - .* \[.*\] ".*" 403 \d+ ".*" ".*" ".*"'
+```
 
 ### Default vars
 

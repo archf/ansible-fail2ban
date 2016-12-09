@@ -26,6 +26,19 @@
   notify: restart_fail2ban
   tags: fail2ban
 
+- name: template filter  filter.d configuration files
+  template:
+    src: filter.conf
+    dest: /etc/fail2ban/filter.d/{{ item.name }}.conf
+    group: root
+    owner: root
+    mode: 0644
+    backup: yes
+  notify: restart_fail2ban
+  tags: fail2ban
+  with_items: "{{ fail2ban_filters }}"
+  when: fail2ban_filters is defined
+
 - name: start/stop fail2ban service
   service:
     name: fail2ban
