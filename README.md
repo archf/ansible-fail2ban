@@ -41,11 +41,13 @@ fail2ban_svc_state: started
 fail2ban_svc_enabled: yes
 
 fail2ban_pkg_state: latest
+fail2ban_use_firewalld: no
 
 # defaults
 fail2ban_jail_default:
   bantime: 600
   maxretry: 3
+  banaction: iptables-multiport
 
 # fail2ban_sshd
 fail2ban_jails:

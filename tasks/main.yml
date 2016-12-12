@@ -3,12 +3,13 @@
 - name: SELlinx
   package: name=selinux-policy state=latest
 
-- name: FirewallD
-  package: name=firewalld state=latest
 
-- name: start firewalld
-  service: name=firewalld state=restarted enabled=yes
-
+- block:
+    - name: Install FirewallD
+      package: name=firewalld state=latest
+    - name: start firewalld
+      service: name=firewalld state=restarted enabled=yes
+  when: fail2ban_use_firewalld
 # tasks file for fail2ban
 
 - name: install fail2ban package
