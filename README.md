@@ -15,6 +15,7 @@ Minimum required ansible version is 2.0.
 
 Add jails with custom filters.
 
+
 Example below bans IP if too many requests give a 403 using a custom filter and custom ban action
 
 ```yaml
