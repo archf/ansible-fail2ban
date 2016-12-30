@@ -15,7 +15,7 @@ Minimum required ansible version is 2.0.
 
 Add jails with custom filters.
 
-Example below bans IP if too many requests give a 403.
+Example below bans IP if too many requests give a 403 using a custom filter and custom ban action
 
 ```yaml
 - role: fail2ban
@@ -23,10 +23,32 @@ Example below bans IP if too many requests give a 403.
       - name: kinto_auth  # nginx 403 for kinto fails
         enabled: 'true'
         filter: kinto-auth
+        action: nginx-blacklist
         logpath: /var/log/nginx/kinto_nginx_access.log
-  fail2ban_filters:
+  fail2ban_filters: # custom filters
       - name: kinto-auth
         failregex: '<HOST> - .* \[.*\] ".*" 403 \d+ ".*" ".*" ".*"'
+  fail2ban_actions: # Custom actions, all keys optionnal
+      - name: nginx-blacklist
+        actionstart:
+            - echo "" > /etc/nginx/ip_blacklist.conf # Unban all before starting
+            - touch /var/run/fail2ban/fail2ban.dummy
+            - printf %%b "<init>\n" >> /var/run/fail2ban/fail2ban.dummy
+        actionstop:
+            - echo "" > /etc/nginx/ip_blacklist.conf # Unban all before stopping
+            - systemctl reload openresty
+            - rm -f /var/run/fail2ban/fail2ban.dummy
+        actioncheck:
+            - echo "ok"
+        actionban:
+            - echo "<ip> 0;" >> /etc/nginx/ip_blacklist.conf
+            - systemctl reload openresty
+        actionunban:
+            - sed -i "/$(echo "<ip>" | sed 's/\./\\\./g') 0;/d" /etc/nginx/ip_blacklist.conf
+            - systemctl reload openresty
+        init:
+            init: "something"
+
 ```
 
 ### Default vars
