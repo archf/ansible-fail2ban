@@ -29,7 +29,7 @@
 
 - name: template filter  filter.d configuration files
   template:
-    src: filter.conf
+    src: filter.conf.j2
     dest: /etc/fail2ban/filter.d/{{ item.name }}.conf
     group: root
     owner: root
@@ -42,7 +42,7 @@
 
 - name: template action  action.d configuration files
   template:
-    src: action.conf
+    src: action.conf.j2
     dest: /etc/fail2ban/action.d/{{ item.name }}.conf
     group: root
     owner: root
