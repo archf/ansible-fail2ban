@@ -29,7 +29,7 @@
 
 - name: template filter  filter.d configuration files
   template:
-    src: filter.conf
+    src: filter.conf.j2
     dest: /etc/fail2ban/filter.d/{{ item.name }}.conf
     group: root
     owner: root
@@ -39,6 +39,19 @@
   tags: fail2ban
   with_items: "{{ fail2ban_filters }}"
   when: fail2ban_filters is defined
+
+- name: template action  action.d configuration files
+  template:
+    src: action.conf.j2
+    dest: /etc/fail2ban/action.d/{{ item.name }}.conf
+    group: root
+    owner: root
+    mode: 0644
+    backup: yes
+  notify: restart_fail2ban
+  tags: fail2ban
+  with_items: "{{ fail2ban_actions }}"
+  when: fail2ban_actions is defined
 
 - name: start/stop fail2ban service
   service:

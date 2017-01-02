@@ -1,0 +1,61 @@
+# Fail2Ban configuration file
+#
+# Original Author: Cyril Jaquier
+# Template: Julien Marechal
+#
+
+{% macro build_action(item, action) %}
+{% if item[action] is defined %}
+{{ action }} ={% for action in item[action]|default([]) %}  {%if not loop.first %}       {% endif %}{{action}}
+{% endfor %}
+{% else %}
+{{ action }} =
+{% endif %}
+{% endmacro %}
+
+[Definition]
+
+# Option:  actionstart
+# Notes.:  command executed once at the start of Fail2Ban.
+# Values:  CMD
+#
+{{ build_action(item, 'actionstart') }}
+
+# Option:  actionstop
+# Notes.:  command executed once at the end of Fail2Ban
+# Values:  CMD
+#
+{{ build_action(item, 'actionstop') }}
+
+# Option:  actioncheck
+# Notes.:  command executed once before each actionban command
+# Values:  CMD
+#
+{{ build_action(item, 'actioncheck') }}
+
+
+# Option:  actionban
+# Notes.:  command executed when banning an IP. Take care that the
+#          command is executed with Fail2Ban user rights.
+# Tags:    See jail.conf(5) man page
+# Values:  CMD
+#
+{{ build_action(item, 'actionban') }}
+
+# Option:  actionunban
+# Notes.:  command executed when unbanning an IP. Take care that the
+#          command is executed with Fail2Ban user rights.
+# Tags:    See jail.conf(5) man page
+# Values:  CMD
+#
+{{ build_action(item, 'actionunban') }}
+
+
+[Init]
+
+# Defined variable for substitution here. E.g: "<blah>"    blah = 'blah'
+{% if item.init is defined %}
+{% for k, v in item.init.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
