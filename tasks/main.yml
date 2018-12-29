@@ -1,6 +1,6 @@
 ---
 # Intall pre-requesites
-- name: SELlinx
+- name: SELinux
   package: name=selinux-policy state=latest
 
 
