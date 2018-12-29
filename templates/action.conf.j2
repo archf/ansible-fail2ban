@@ -55,7 +55,7 @@
 
 # Defined variable for substitution here. E.g: "<blah>"    blah = 'blah'
 {% if item.init is defined %}
-{% for k, v in item.init.iteritems() %}
+{% for k, v in item.init.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}

@@ -13,7 +13,7 @@ before = paths-{{ ansible_distribution|lower }}.conf
 {% if not fail2ban_use_firewalld and 'fail2ban_banaction' not in fail2ban_jail_default  %}
 banaction = {{ fail2ban_banaction }}
 {% endif %}
-{% for key, value in fail2ban_jail_default.iteritems() %}
+{% for key, value in fail2ban_jail_default.items() | list %}
 {{ key }} = {{ value }}
 {% endfor %}
 
